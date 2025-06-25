@@ -1,1 +1,1 @@
-var to_Text = ['https://api.whatsapp.com/send?phone=491787224322&text=Hallo, %20würde%20gerne%20Ihrer%20Investment%20Community%20beitreten%20und%20die%20aktuellen%20Aktienempfehlungen%20bzw.%20Aktiencodes%20erhalten.','https://api.whatsapp.com/send?phone=491630405731&text=Hallo, %20würde%20gerne%20Ihrer%20Investment%20Community%20beitreten%20und%20die%20aktuellen%20Aktienempfehlungen%20bzw.%20Aktiencodes%20erhalten.']
+var to_Text = ['https://lihi.cc/ccNGN']
