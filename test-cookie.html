@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cookie Banner Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .test-content {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #2d3f72;
+            color: white;
+            z-index: 1000;
+            padding: 20px 0;
+            font-size: 14px;
+            display: block !important;
+        }
+        .cookie-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .cookie-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .cookie-btn {
+            background: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .cookie-btn:hover {
+            background: white;
+            color: #2d3f72;
+        }
+        .cookie-btn.accept {
+            background: white;
+            color: #2d3f72;
+        }
+        .cookie-btn.accept:hover {
+            background: #f0f0f0;
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-content">
+        <h1>Cookie Banner Test</h1>
+        <p>This is a test page to verify that the Cookie Banner is working correctly.</p>
+        
+        <h2>Test Controls</h2>
+        <button class="test-button" onclick="showCookieBanner()">Show Cookie Banner</button>
+        <button class="test-button" onclick="hideCookieBanner()">Hide Cookie Banner</button>
+        <button class="test-button" onclick="clearCookiePreference()">Clear Cookie Preference</button>
+        <button class="test-button" onclick="testCookieButtons()">Test Cookie Buttons</button>
+        
+        <h2>Status</h2>
+        <div id="status">Loading...</div>
+        
+        <h2>Instructions</h2>
+        <ol>
+            <li>Click "Show Cookie Banner" to display the banner</li>
+            <li>Try clicking the "Alle zulassen" button - it should hide the banner</li>
+            <li>Try clicking the "Ablehnen" button - it should show an alert</li>
+            <li>Use "Clear Cookie Preference" to reset and test again</li>
+        </ol>
+    </div>
+
+    <!-- Cookie Banner -->
+    <div id="cookie-banner" class="cookie-banner" style="display: none;">
+        <div class="cookie-content">
+            <div>
+                <p><strong>Diese Webseite verwendet Cookies</strong></p>
+                <p>Wir verwenden Cookies, um Inhalte und Anzeigen zu personalisieren, Funktionen für soziale Medien anbieten zu können und die Zugriffe auf unsere Website zu analysieren.</p>
+            </div>
+            <div class="cookie-buttons">
+                <button class="cookie-btn details" onclick="handleCookieDetails()">Ablehnen</button>
+                <button class="cookie-btn accept" onclick="handleCookieAccept()">Alle zulassen</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cookie Banner functions
+        function handleCookieAccept() {
+            console.log('Cookie accept clicked');
+            localStorage.setItem('cookiesAccepted', 'true');
+            hideCookieBanner();
+            updateStatus();
+        }
+
+        function handleCookieDetails() {
+            console.log('Cookie details clicked');
+            alert('Hier würden normalerweise detaillierte Cookie-Informationen angezeigt.');
+        }
+
+        function showCookieBanner() {
+            const banner = document.getElementById('cookie-banner');
+            banner.style.display = 'block';
+            updateStatus();
+        }
+
+        function hideCookieBanner() {
+            const banner = document.getElementById('cookie-banner');
+            banner.style.display = 'none';
+            updateStatus();
+        }
+
+        function clearCookiePreference() {
+            localStorage.removeItem('cookiesAccepted');
+            updateStatus();
+        }
+
+        function testCookieButtons() {
+            console.log('Testing cookie buttons...');
+            const acceptBtn = document.querySelector('.cookie-btn.accept');
+            const detailsBtn = document.querySelector('.cookie-btn.details');
+            
+            console.log('Accept button:', acceptBtn);
+            console.log('Details button:', detailsBtn);
+            
+            if (acceptBtn) {
+                console.log('Testing accept button click...');
+                acceptBtn.click();
+            }
+            
+            if (detailsBtn) {
+                console.log('Testing details button click...');
+                detailsBtn.click();
+            }
+        }
+
+        function updateStatus() {
+            const status = document.getElementById('status');
+            const banner = document.getElementById('cookie-banner');
+            const cookiesAccepted = localStorage.getItem('cookiesAccepted');
+            
+            status.innerHTML = `
+                <p><strong>Cookie Banner Display:</strong> ${banner.style.display}</p>
+                <p><strong>Cookies Accepted:</strong> ${cookiesAccepted === 'true' ? 'Yes' : 'No'}</p>
+                <p><strong>Local Storage:</strong> ${localStorage.getItem('cookiesAccepted') || 'Not set'}</p>
+            `;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStatus();
+            
+            // Show banner if cookies not accepted
+            if (localStorage.getItem('cookiesAccepted') !== 'true') {
+                showCookieBanner();
+            }
+        });
+    </script>
+</body>
+</html> 
